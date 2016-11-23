@@ -154,8 +154,8 @@ angular.module('myApp.view1', ['ngRoute'])
 		"normal": "normalCss"
 	}
 
-	$scope.getCss = function(name) {
-		return cssMap[name];
+	$scope.getCss = function(type) {
+		return cssMap[type[0]];
 	}
 
 	$scope.formatedPokemons = formatPokemonNamesFilter($scope.pokemons);

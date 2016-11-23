@@ -19,7 +19,7 @@
     <li ng-repeat="pokemon in formatedPokemons | filter: myQuery | filter: {type:pockemonType} | orderBy: myOrderProperty">
         <img ng-click="doAlert(pokemon.name)" style="cursor:pointer" src="{{pokemon.ThumbnailImage}}">
         <small>ID #{{pokemon.id }}</small>
-        <h1 ng-class="getCss(pokemon.type[0])">{{pokemon.name}}</h1>
+        <h1 ng-class="getCss(pokemon.type)">{{pokemon.name}}</h1>
         <p>Вес: {{pokemon.weight}}, рост: {{pokemon.height}}</p>
         <p>Тип: {{pokemon.type [0]}}</p>
         <hr />
