@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute'])
         })
     }])
 
-    .filter('formatName', function(){
+    .filter('formatPokemonNames', function(){
 	    return function(pokemons){
 		for (let i = 0; i < pokemons.length; i++) {
 			pokemons[i].name = pokemons[i].name.toUpperCase();
@@ -18,7 +18,21 @@ angular.module('myApp.view1', ['ngRoute'])
     	}
     })
 
-    .controller('View1Ctrl', function ($scope, $window, formatNameFilter) {
+    .filter('getPokemonTypes', function(){
+	    return function(pokemons){
+		let types = [];
+		types.push({ value: '', title: 'Без фильтра'});
+		for (let i = 0; i < pokemons.length; i++) {
+			let new_type = { value: pokemons[i].type[0], title: pokemons[i].type[0] };
+			if(!types.find(type => type.value == new_type.value))  {
+				types.push(new_type);
+			}
+		}
+		return types;
+    	}
+    })
+
+    .controller('View1Ctrl', function ($scope, $window, formatPokemonNamesFilter, getPokemonTypesFilter) {
 
         $scope.pokemons = [{
             "abilities": [
@@ -105,7 +119,7 @@ angular.module('myApp.view1', ['ngRoute'])
             "ThumbnailImage": "http://assets.pokemon.com/assets/cms2/img/pokedex/detail/025.png",
             "slug": "pikachu",
             "type": [
-                "electric"
+                "normal"
             ]
         }, {
             "abilities": [
@@ -130,7 +144,24 @@ angular.module('myApp.view1', ['ngRoute'])
             ]
         }];
 
-	$scope.filteredPokemons = formatNameFilter($scope.pokemons);
+	// AngularJS works with dirty checking: it needs to call the function each cycle to be sure that it doesn't return a new value and that the DOM doesn't need to be updated.
+	// source - http://stackoverflow.com/questions/26992193/using-ng-class-with-a-function-call-called-multiple-times
+	let cssMap = {
+		"grass": "grassCss",
+		"fire": "fireCss",
+		"water": "waterCss",
+		"electric": "electricCss",
+		"normal": "normalCss"
+	}
+
+	$scope.getCss = function(name) {
+		return cssMap[name];
+	}
+
+	$scope.formatedPokemons = formatPokemonNamesFilter($scope.pokemons);
+
+	$scope.pockemonType = '';
+	$scope.pokemonTypes = getPokemonTypesFilter($scope.pokemons);
 
         $scope.myOrderProperty = 'id';
 

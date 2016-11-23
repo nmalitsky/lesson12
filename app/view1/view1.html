@@ -12,14 +12,14 @@
 
 <p>
     Фильтровать по типу:
-    <select ng-model="pockemonType" ng-options="pokemon.type[0] as pokemon.type[0] for pokemon in pokemons"></select>
+    <select ng-model="pockemonType" ng-options="type.value as type.title for type in pokemonTypes"></select>
 </p>
 
 <ul>
-    <li ng-repeat="pokemon in filteredPokemons | filter: myQuery | filter: {type:pockemonType} | orderBy: myOrderProperty">
+    <li ng-repeat="pokemon in formatedPokemons | filter: myQuery | filter: {type:pockemonType} | orderBy: myOrderProperty">
         <img ng-click="doAlert(pokemon.name)" style="cursor:pointer" src="{{pokemon.ThumbnailImage}}">
         <small>ID #{{pokemon.id }}</small>
-        <h1 class="{{pokemon.type[0] + 'Css'}}">{{pokemon.name}}</h1>
+        <h1 ng-class="getCss(pokemon.type[0])">{{pokemon.name}}</h1>
         <p>Вес: {{pokemon.weight}}, рост: {{pokemon.height}}</p>
         <p>Тип: {{pokemon.type [0]}}</p>
         <hr />
